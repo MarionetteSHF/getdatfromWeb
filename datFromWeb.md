@@ -101,9 +101,7 @@ runtime_vec =
   sw_html %>%
   html_nodes(css = ".runtime")%>%
   html_text()
-```
 
-``` r
 swf_df =
   tibble(
     title= title_vec,
@@ -111,3 +109,51 @@ swf_df =
     runtime = runtime_vec
   )
 ```
+
+\#get NY water data from API usE CSV FILE!!!!!!!!
+
+``` r
+nyc_water = 
+  GET("https://data.cityofnewyork.us/resource/ia2d-e54m.csv")%>%
+  content("parsed")
+```
+
+    ## Rows: 42 Columns: 4
+
+    ## -- Column specification --------------------------------------------------------
+    ## Delimiter: ","
+    ## dbl (4): year, new_york_city_population, nyc_consumption_million_gallons_per...
+
+    ## 
+    ## i Use `spec()` to retrieve the full column specification for this data.
+    ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+#if only has json file
+nyc_water = 
+  GET("https://data.cityofnewyork.us/resource/ia2d-e54m.json")%>%
+  content("text")%>%
+  jsonlite::fromJSON()%>%
+  as_tibble()
+```
+
+\#\#BRFSS same process API may have its own parameter
+
+``` r
+nrfss_2010 =
+  GET("https://chronicdata.cdc.gov/resource/acme-vg9e.csv",
+      query = list("$limit" = 5000))%>%
+  content("parsed")
+```
+
+    ## Rows: 5000 Columns: 23
+
+    ## -- Column specification --------------------------------------------------------
+    ## Delimiter: ","
+    ## chr (16): locationabbr, locationdesc, class, topic, question, response, data...
+    ## dbl  (6): year, sample_size, data_value, confidence_limit_low, confidence_li...
+    ## lgl  (1): locationid
+
+    ## 
+    ## i Use `spec()` to retrieve the full column specification for this data.
+    ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.

@@ -75,18 +75,58 @@ runtime_vec =
   sw_html %>%
   html_nodes(css = ".runtime")%>%
   html_text()
-```
 
-
-```{r}
 swf_df =
   tibble(
     title= title_vec,
     gross_rev = gross_rev_vec,
     runtime = runtime_vec
   )
+```
+
+#get NY water data from API
+usE CSV FILE!!!!!!!!
+```{r}
+nyc_water = 
+  GET("https://data.cityofnewyork.us/resource/ia2d-e54m.csv")%>%
+  content("parsed")
+
+
+#if only has json file
+nyc_water = 
+  GET("https://data.cityofnewyork.us/resource/ia2d-e54m.json")%>%
+  content("text")%>%
+  jsonlite::fromJSON()%>%
+  as_tibble()
+  
+```
+
+##BRFSS
+same process
+API may have its own parameter 
+```{r}
+nrfss_2010 =
+  GET("https://chronicdata.cdc.gov/resource/acme-vg9e.csv",
+      query = list("$limit" = 5000))%>%
+  content("parsed")
 
 ```
+
+
+```{r}
+
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+
 
 
 ```{r}
