@@ -112,13 +112,15 @@ nrfss_2010 =
 
 ```
 
-
+##some data are not so nice
 ```{r}
+pokemon =
+  GET("https://pokeapi.co/api/v2/pokemon/1")%>%
+  content
 
-
-
+pokemon$abilities
 ```
-
+##Closing thoughts
 
 ```{r}
 
