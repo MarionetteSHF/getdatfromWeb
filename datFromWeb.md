@@ -67,3 +67,47 @@ drug_use_html %>%
   slice(-1)%>%
   as_tibble()
 ```
+
+## star wars movies info
+
+I want the data from[here](https://www.imdb.com/list/ls070150896/)
+
+``` r
+url = "https://www.imdb.com/list/ls070150896/"
+
+sw_html =read_html(url)
+```
+
+Grab elements that I want
+
+``` r
+title_vec = 
+  sw_html %>%
+  html_nodes(css = ".lister-item-header a") %>%
+  html_text()
+  
+gross_rev_vec =
+  sw_html %>%
+  html_nodes(css= ".text-muted .ghost~ .text-muted+ span")%>%
+  html_text()
+gross_rev_vec
+```
+
+    ## [1] "$474.54M" "$310.68M" "$380.26M" "$322.74M" "$290.48M" "$309.13M" "$936.66M"
+    ## [8] "$620.18M" "$515.20M"
+
+``` r
+runtime_vec =
+  sw_html %>%
+  html_nodes(css = ".runtime")%>%
+  html_text()
+```
+
+``` r
+swf_df =
+  tibble(
+    title= title_vec,
+    gross_rev = gross_rev_vec,
+    runtime = runtime_vec
+  )
+```
